@@ -1,0 +1,95 @@
+* verbes
+GET
+PUT
+DELETE
+
+* Creating an index
+curl -XPUT "http://localhost:9200/ecommerce" -d' { }'
+{"acknowledged":true}
+
+* deleting an index
+curl -XDELETE "http://localhost:9200/ecommerce"
+{"acknowledged":true}
+
+* cat command
+curl -XGET "http://localhost:9200/_cat/indices?v"
+
+* Data Types
+** Core
+1. String
+2. Numeric
+3. Date
+4. Boolean
+5. Binary (Base64)  it is not searchable
+
+** Complex Types
+1. Object (flat list of key/value pairs)
+2. Arrays (not supported )
+3. Nested data types
+4. Geo Data Types
+
+
+
+
+
+* configuration for master
+root@es0:~# cat /etc/elasticsearch/elasticsearch.yml
+cluster.name: mycluster
+node.name: "es0"
+node.master: true
+node.data: false
+http.port : 9200
+tcp.port : 9300
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
+network.bind_host: 0.0.0.0
+network.publish_host: 172.20.20.50
+
+* configuration for data
+** node1
+root@es1:~# cat /etc/elasticsearch/elasticsearch.yml
+cluster.name: mycluster
+node.name: "es1"
+node.master: false
+node.data: true
+http.port : 9200
+tcp.port : 9300
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
+network.bind_host: 0.0.0.0
+network.publish_host: 172.20.20.51
+
+
+** node2
+root@es2:~# cat /etc/elasticsearch/elasticsearch.yml
+cluster.name: mycluster
+node.name: "es2"
+node.master: false
+node.data: true
+http.port : 9200
+tcp.port : 9300
+discovery.zen.ping.multicast.enabled: false
+discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
+network.bind_host: 0.0.0.0
+network.publish_host: 172.20.20.52
+
+
+* check health
+root@es0:~# curl -XGET 'http://localhost:9200/_cluster/health'?pretty
+{
+  "cluster_name" : "mycluster",
+  "status" : "green",
+  "timed_out" : false,
+  "number_of_nodes" : 2,
+  "number_of_data_nodes" : 1,
+  "active_primary_shards" : 0,
+  "active_shards" : 0,
+  "relocating_shards" : 0,
+  "initializing_shards" : 0,
+  "unassigned_shards" : 0,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 7,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 23857,
+  "active_shards_percent_as_number" : 100.0
+}

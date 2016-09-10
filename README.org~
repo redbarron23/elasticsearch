@@ -1,0 +1,30 @@
+* verbes
+GET
+PUT
+DELETE
+
+* Creating an index
+curl -XPUT "http://localhost:9200/ecommerce" -d' { }'
+{"acknowledged":true}
+
+* deleting an index
+curl -XDELETE "http://localhost:9200/ecommerce"
+{"acknowledged":true}
+
+* cat command
+curl -XGET "http://localhost:9200/_cat/indices?v"
+
+* Data Types
+** Core
+1. String
+2. Numeric
+3. Date
+4. Boolean
+5. Binary (Base64)  it is not searchable
+
+** Complex Types
+1. Object (flat list of key/value pairs)
+2. Arrays (not supported )
+3. Nested data types
+4. Geo Data Types
+
