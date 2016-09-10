@@ -4,15 +4,21 @@ PUT
 DELETE
 
 * Creating an index
+#+BEGIN_SRC sh
 curl -XPUT "http://localhost:9200/ecommerce" -d' { }'
 {"acknowledged":true}
+#+END_SRC
 
 * deleting an index
+#+BEGIN_SRC sh
 curl -XDELETE "http://localhost:9200/ecommerce"
 {"acknowledged":true}
+#+END_SRC
 
 * cat command
+#+BEGIN_SRC sh
 curl -XGET "http://localhost:9200/_cat/indices?v"
+#+END_SRC
 
 * Data Types
 ** Core
@@ -33,6 +39,7 @@ curl -XGET "http://localhost:9200/_cat/indices?v"
 
 
 * configuration for master
+#+BEGIN_SRC sh
 root@es0:~# cat /etc/elasticsearch/elasticsearch.yml
 cluster.name: mycluster
 node.name: "es0"
@@ -44,9 +51,11 @@ discovery.zen.ping.multicast.enabled: false
 discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
 network.bind_host: 0.0.0.0
 network.publish_host: 172.20.20.50
+#+END_SRC
 
 * configuration for data
 ** node1
+#+BEGIN_SRC sh
 root@es1:~# cat /etc/elasticsearch/elasticsearch.yml
 cluster.name: mycluster
 node.name: "es1"
@@ -58,9 +67,10 @@ discovery.zen.ping.multicast.enabled: false
 discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
 network.bind_host: 0.0.0.0
 network.publish_host: 172.20.20.51
-
+#+END_SRC
 
 ** node2
+#+BEGIN_SRC sh
 root@es2:~# cat /etc/elasticsearch/elasticsearch.yml
 cluster.name: mycluster
 node.name: "es2"
@@ -72,9 +82,10 @@ discovery.zen.ping.multicast.enabled: false
 discovery.zen.ping.unicast.hosts: ["data0", "data1", "data2"]
 network.bind_host: 0.0.0.0
 network.publish_host: 172.20.20.52
-
+#+END_SRC
 
 * check health
+#+BEGIN_SRC sh
 root@es0:~# curl -XGET 'http://localhost:9200/_cluster/health'?pretty
 {
   "cluster_name" : "mycluster",
@@ -93,3 +104,10 @@ root@es0:~# curl -XGET 'http://localhost:9200/_cluster/health'?pretty
   "task_max_waiting_in_queue_millis" : 23857,
   "active_shards_percent_as_number" : 100.0
 }
+#+END_SRC
+
+
+
+* plugins
+** head
+http://localhost:9200/_plugin/head/
