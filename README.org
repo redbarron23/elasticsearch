@@ -32,10 +32,30 @@ curl -XGET "http://localhost:9200/_cat/indices?v"
 1. Object (flat list of key/value pairs)
 2. Arrays (not supported )
 3. Nested data types
-4. Geo Data Types
+4. Geo Data Types (rectangles and polygons)
+5. Attachment
+
+* Meta fields
+each document has metadata
+e.g.  _index, _type, _id
 
 
+** document source meta fields
+_source
 
+_size
+
+** indexing meta fields
+_ALL
+
+_FIELDS_NAMES
+
+** routing meta fields
+_PARENT (foreign key)
+
+_ROUTING (advanced)
+
+_META
 
 
 * configuration for master
@@ -107,6 +127,88 @@ root@es0:~# curl -XGET 'http://localhost:9200/_cluster/health'?pretty
 #+END_SRC
 
 
+
+* Create index and mappings
+** SENSE format
+#+BEGIN_SRC sh
+PUT /ecommerce
+{
+    "mappings": {
+        "product": {
+            "properties": {
+                "name": {
+                    "type": "double"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "categories": {
+                    "type": "nested",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "tags": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
+#+END_SRC
+
+** curl format
+#+BEGIN_SRC sh
+curl -XPUT "http://localhost:9200/ecommerce" -d'
+{
+    "mappings": {
+        "product": {
+            "properties": {
+                "name": {
+                    "type": "double"
+                },
+                "price": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "categories": {
+                    "type": "nested",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "tags": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}'
+#+END_SRC
+
+
+* Addming Test Data
 
 * plugins
 ** head
