@@ -266,7 +266,18 @@ curl -XPUT "http://localhost:9200/ecommerce/product/1001" -d'
 }'
 #+END_SRC
 
+
+
 * updating a doc
+
+* deleting a doc
+** SENSE
+DELETE /ecommerce/product/1001
+
+** curl
+#+BEGIN_SRC sh
+curl -XDELETE "http://localhost:9200/ecommerce/product/1001"
+#+END_SRC
 
 * plugins
 ** head
