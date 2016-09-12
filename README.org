@@ -137,10 +137,10 @@ PUT /ecommerce
         "product": {
             "properties": {
                 "name": {
-                    "type": "double"
+                    "type": "string"
                 },
                 "price": {
-                    "type": "string"
+                    "type": "double"
                 },
                 "description": {
                     "type": "string"
@@ -176,10 +176,10 @@ curl -XPUT "http://localhost:9200/ecommerce" -d'
         "product": {
             "properties": {
                 "name": {
-                    "type": "double"
+                    "type": "string"
                 },
                 "price": {
-                    "type": "string"
+                    "type": "double"
                 },
                 "description": {
                     "type": "string"
@@ -209,6 +209,64 @@ curl -XPUT "http://localhost:9200/ecommerce" -d'
 
 
 * Addming Test Data
+** bulk insert
+#+BEGIN_SRC sh
+curl -XPOST http://localhost:9200/ecommerce/product/_bulk --data-binary "@test-data.json"
+{"took":47,"errors":false,"items":[{"index":{"_index":"ecommerce","_type":"product","_id":"1","_version":1,"status":201}},{"index":{"_index":"ecommerce","_type":"product","_id":"2","_version":1,"status":201}},{"index":{"_index":"ecommerce","_type":"product","_id":"3","_version":1,"status":201}},{"index":{"_index":"ecommerce","_type":"product","_id":"4","_version":1,"status":201}},{"index":{"_index":"ecommerce","_type":"product","_id":"5","_version":1,"status":201}},
+....
+#+END_SRC
+
+If the request succeeds in creating a new document, Elasticsearch will return the usual metadata and an HTTP response code of 201 Created.
+
+
+* Retrieving a document
+** sense query
+#+BEGIN_SRC sh
+GET /ecommerce/product/1002
+#+END_SRC
+
+** curl statement
+#+BEGIN_SRC sh
+curl -XGET "http://localhost:9200/ecommerce/product/1002"
+#+END_SRC
+
+
+
+* inserting a doc
+** SENSE
+#+BEGIN_SRC sh
+PUT /ecommerce/product/1001
+{
+    "name": "Zend Framework 2: From Beginner to Professional",
+    "price": 30.00,
+    "description": "Learn Zend from Framework 2 in just a few hours!",
+    "status": "active",
+    "quantity": 1,
+    "categories": [
+        {"name": "Software" }
+    ],
+    "tags": ["zend framework", "zf", "php", "programming"]
+}
+#+END_SRC
+
+
+** curl
+#+BEGIN_SRC sh
+curl -XPUT "http://localhost:9200/ecommerce/product/1001" -d'
+{
+    "name": "Zend Framework 2: From Beginner to Professional",
+    "price": 30.00,
+    "description": "Learn Zend from Framework 2 in just a few hours!",
+    "status": "active",
+    "quantity": 1,
+    "categories": [
+        {"name": "Software" }
+    ],
+    "tags": ["zend framework", "zf", "php", "programming"]
+}'
+#+END_SRC
+
+* updating a doc
 
 * plugins
 ** head
